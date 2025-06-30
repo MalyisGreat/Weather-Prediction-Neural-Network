@@ -32,8 +32,8 @@ The model continued to improve its probabilistic skill long after the point‑fo
 ### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/Chesspaper.git
-cd Chesspaper
+git clone https://github.com/MalyisGreat/Weather-Prediction-Neural-Network.git
+cd Weather-Prediction-Neural-Network
 
 # (Optional) create a virtual environment
 python -m venv venv
