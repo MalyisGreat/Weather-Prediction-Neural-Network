@@ -35,9 +35,7 @@ The model continued to improve its probabilistic skill long after the point‑fo
 
 git clone https://github.com/MalyisGreat/Weather-Prediction-Neural-Network.git
 cd Weather-Prediction-Neural-Network
-=======
-git clone https://github.com/your-username/Chesspaper.git
-cd Chesspaper
+
 
 
 # (Optional) create a virtual environment
