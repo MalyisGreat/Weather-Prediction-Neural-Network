@@ -36,8 +36,6 @@ The model continued to improve its probabilistic skill long after the point‑fo
 git clone https://github.com/MalyisGreat/Weather-Prediction-Neural-Network.git
 cd Weather-Prediction-Neural-Network
 
-
-
 # (Optional) create a virtual environment
 python -m venv venv
 source venv/bin/activate  # On Windows use .\venv\Scripts\activate
