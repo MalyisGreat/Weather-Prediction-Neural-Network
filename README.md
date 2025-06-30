@@ -32,8 +32,13 @@ The model continued to improve its probabilistic skill long after the point‑fo
 ### Installation
 ```bash
 # Clone the repository
+
+git clone https://github.com/MalyisGreat/Weather-Prediction-Neural-Network.git
+cd Weather-Prediction-Neural-Network
+=======
 git clone https://github.com/your-username/Chesspaper.git
 cd Chesspaper
+
 
 # (Optional) create a virtual environment
 python -m venv venv
@@ -49,6 +54,24 @@ Run the training script from the project root:
 python advanced.py
 ```
 The script downloads the Beijing dataset automatically and saves the best weights to `models/weather_tcn_mdn_best.pth`.
+
+
+### Using the Pre-Trained Model
+You can load the included weights and run inference without retraining:
+```python
+import torch
+from advanced import TCN_MDN
+
+# Replace <FEATURE_DIM> with the number of features produced by preprocessing
+model = TCN_MDN(n_feats=<FEATURE_DIM>)
+model.load_state_dict(torch.load("weather_tcn_mdn_best.pth", map_location="cpu"))
+model.eval()
+# `data` should be a tensor shaped (batch, SEQ_LEN, <FEATURE_DIM>)
+dist = model(data)
+```
+`dist` is a `torch.distributions` object representing the forecast distribution.
+=======
+
 
 ## Model Limitations
 - **Concept Drift:** the model was trained on data from 2010‑2014 and will not accurately predict current conditions.
@@ -66,4 +89,9 @@ To break through the limitations of the old dataset, load these weights into a w
 - `requirements.txt` – list of Python dependencies
 
 ## License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for details. This
+permissive license encourages both academic and commercial use of the code.
+=======
 Distributed under the MIT License. See [LICENSE](LICENSE) for details.
+
