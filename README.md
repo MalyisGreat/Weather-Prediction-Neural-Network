@@ -1,51 +1,69 @@
 # Weather Prediction Neural Network
 
-This repository contains an advanced time-series forecasting model that predicts weather conditions and provides the confidence of each forecast. The core of the system is a Temporal Convolutional Network (TCN) combined with a Mixture Density Network (MDN) to produce probabilistic predictions.
+This project implements a probabilistic forecaster for Beijing air quality using a Temporal Convolutional Network (TCN) encoder topped with a Mixture Density Network (MDN) head. The network predicts a full distribution of possible outcomes instead of a single value. Because the training data covers only Beijing from 2010‑2014, the included model is best used as a starting point for **transfer learning**.
 
 ![Model Diagram](Figure_3.png)
 
-## Features
+## About The Project
+Traditional forecasting models provide a single point prediction, which fails to capture the uncertainty inherent in weather systems. This model outputs a Gaussian mixture distribution, producing richer forecasts and confidence estimates.
 
-- **Probabilistic forecasting** using a TCN + MDN architecture
-- **Automatic checkpointing and resume** capability
-- **Early stopping** based on validation metrics
-- **Supports GPU acceleration** when available
-- **Pre-trained models** included for quick experimentation
+- **TCN Encoder** processes the last 72 hours of measurements and efficiently captures long‑range dependencies.
+- **MDN Head** predicts the weights, means and standard deviations of a Gaussian Mixture Model.
+- **Negative Log-Likelihood (NLL)** is the primary optimization metric.
 
-## Requirements
+## Key Features
+- Probabilistic forecasting with a TCN + MDN architecture
+- Resumable training with automatic checkpointing
+- LayerNorm, GELU and softplus activations for stability
+- Early stopping and learning rate scheduling
+- GPU acceleration when available
 
-- Python 3.8+
-- PyTorch
-- pandas
-- numpy
-- scikit-learn
-- joblib
-- matplotlib
+## Results
+Training for more than 250 epochs on the Beijing PM2.5 dataset yielded:
+- **Best Validation NLL:** -55.82
+- **Peak Validation R²:** ~0.52 around epoch 63
+The model continued to improve its probabilistic skill long after the point‑forecast accuracy plateaued.
 
-Install dependencies with pip:
+## Getting Started
+### Prerequisites
+- Python 3.9+
+- `pip` or another package manager
 
+### Installation
 ```bash
-pip install torch pandas numpy scikit-learn joblib matplotlib
+# Clone the repository
+git clone https://github.com/your-username/Chesspaper.git
+cd Chesspaper
+
+# (Optional) create a virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows use .\venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
 ```
 
-## Training
-
-Run `advanced.py` to train the model from scratch or resume from the last checkpoint:
-
+### Usage
+Run the training script from the project root:
 ```bash
 python advanced.py
 ```
+The script downloads the Beijing dataset automatically and saves the best weights to `models/weather_tcn_mdn_best.pth`.
 
-The script automatically downloads the Beijing PM2.5 dataset from the UCI repository and performs feature engineering before training.
+## Model Limitations
+- **Concept Drift:** the model was trained on data from 2010‑2014 and will not accurately predict current conditions.
+- **Geographic Specificity:** it was trained only on Beijing, so predictions for other locations will be unreliable.
+
+## The Path Forward: Transfer Learning
+To break through the limitations of the old dataset, load these weights into a wider model and fine‑tune on additional stations. A sample `transfer_learning.py` script demonstrates how to merge datasets and continue training.
 
 ## Repository Structure
-
 - `advanced.py` – main training script
-- `Figure_3.png` – model architecture diagram
-- `weather_tcn_mdn_best.pth` – best-performing model weights
-- `weather_tcn_mdn_full.pth` – final model after training
+- `Figure_3.png` – architecture figure
+- `weather_tcn_mdn_best.pth` – best model weights
+- `weather_tcn_mdn_full.pth` – full model checkpoint
 - `weather_scaler.pkl` / `weather_encoder.pkl` – preprocessing artifacts
+- `requirements.txt` – list of Python dependencies
 
 ## License
-
-This project is released under the MIT License.
+Distributed under the MIT License. See [LICENSE](LICENSE) for details.
