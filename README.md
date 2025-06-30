@@ -51,21 +51,6 @@ python advanced.py
 ```
 The script downloads the Beijing dataset automatically and saves the best weights to `models/weather_tcn_mdn_best.pth`.
 
-
-### Using the Pre-Trained Model
-You can load the included weights and run inference without retraining:
-```python
-import torch
-from advanced import TCN_MDN
-
-# Replace <FEATURE_DIM> with the number of features produced by preprocessing
-model = TCN_MDN(n_feats=<FEATURE_DIM>)
-model.load_state_dict(torch.load("weather_tcn_mdn_best.pth", map_location="cpu"))
-model.eval()
-# `data` should be a tensor shaped (batch, SEQ_LEN, <FEATURE_DIM>)
-dist = model(data)
-```
-`dist` is a `torch.distributions` object representing the forecast distribution.
 =======
 
 
